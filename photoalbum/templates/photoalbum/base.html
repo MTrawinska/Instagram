@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block logo %}
+{#        <img src="{% static 'images/logo.png' %}" alt="Tu powinno być logo" >#}
+    {% endblock %}
+   {% block page_content %}
+      {% block page_title %}
+            <h1> Instagram </h1>
+      {% endblock %}
+
+       {% block content %}
+           {% block additional %}
+       {% endblock %}
+              {{ objects }}
+                <ul>
+                    {% for object in objects %}
+                        {% block element %}
+                            <li><a href='/{% block link %}class{% endblock %}/{}'>{}</a></li>
+                        {% endblock %}
+                    {% endfor %}
+                </ul>
+       {% endblock %}
+
+   {% endblock %}
+
+    {% if user.is_authenticated %}
+        Witaj {{ user }} - <a href = '/logout/'>Wyloguj</a>
+    {% else %}
+    Witaj nieznajomy :) - <a href = '/login/'>Zaloguj</a>
+{% endif %}
+
+</body>
+</html>

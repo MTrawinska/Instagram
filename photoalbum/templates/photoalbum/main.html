@@ -1,0 +1,36 @@
+{% extends 'photoalbum/base.html' %}
+
+{% block additional %}
+    {%  for error in form.errors %}
+    {{ error }}
+    {% endfor %}
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        {{ form.as_p }}
+    <input  type="submit" value="add" name="submit">
+    </form>
+{% endblock %}
+
+{% block element %}
+    <li><img src="{{ object.path.url }}">
+        <br>{{ object.creation_date }}
+        <br>{{ object.users }}</li>
+    {% if user in object.likers.all %}
+        <form method="POST">{% csrf_token %}
+            <label>
+                <input value="{{ object.id }}" name="photo_unlike" type="hidden">
+            </label>
+            <button type="submit" value="unlike">Hejt zdjęcie</button>
+            polubień: {{ object.misa_like_it }}
+        </form>
+        Lubisz to zdjęcie! :D
+    {% else %}
+        <form method="POST">{% csrf_token %}
+            <label>
+                <input value="{{ object.id }}" name="photo_like" type="hidden">
+            </label>
+            <button type="submit" value="like">Polub zdjęcie</button>
+            polubień: {{ object.misa_like_it }}
+        </form>
+    {% endif %}
+{% endblock %}
